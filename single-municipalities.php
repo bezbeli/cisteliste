@@ -29,7 +29,7 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 				'post_type'=>'post',
 				'orderby'=>'title',
 				'posts_per_page'=>'-1',
-				'order'=>'ASC',
+				'order'=>'DESC',
 				'meta_query' => array(
 					array(
 						'key'  => 'election_id',
