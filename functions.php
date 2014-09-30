@@ -10,6 +10,7 @@
  * @link https://github.com/roots/roots/pull/1042
  */
 $roots_includes = array(
+  'lib/post_types.php',      // Custom post types
   'lib/utils.php',           // Utility functions
   'lib/init.php',            // Initial theme setup and constants
   'lib/wrapper.php',         // Theme wrapper class
@@ -22,6 +23,7 @@ $roots_includes = array(
   'lib/comments.php',        // Custom comments modifications
   'lib/scripts.php',         // Scripts and stylesheets
   'lib/extras.php',          // Custom functions
+  'lib/taxonomies.php',      // Custom taxonomies
 );
 
 foreach ($roots_includes as $file) {

@@ -1,8 +1,8 @@
 {
-  "name": "roots",
-  "version": "7.0.1",
-  "author": "Ben Word <ben@benword.com>",
-  "homepage": "http://roots.io",
+  "name": "cisteliste",
+  "version": "1.0.0",
+  "author": "Enes Huseincehajic <bezbeli@gmail.com>",
+  "homepage": "http://bezbeli.com",
   "repository": {
     "type": "git",
     "url": "git://github.com/roots/roots.git"
