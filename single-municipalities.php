@@ -23,7 +23,7 @@ $custom_fields = get_post_custom();
 foreach ( $custom_fields as $field_key => $field_values ) {
 	foreach ( $field_values as $key => $value )
 		if ($value && $field_key != 'municipality_ID' && $field_key != '_edit_lock') {
-		echo '<h3>' . $field_key . ': ' . $value . '</h3>sasasasasasasasasas';
+		echo '<h3>' . $field_key . ': ' . $value . '</h3>';
 		$election_id = $value;
 			$args = array(
 				'post_type'=>'post',
