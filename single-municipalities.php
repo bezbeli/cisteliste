@@ -46,7 +46,7 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 
 					foreach ( $termsPartyName as $term ) {
 						// array_push($partije, $term->name);
-						$partije[] = $term->term_id;
+						$partije[] = $term->term_id;sds
 					}
 
 			endwhile;
