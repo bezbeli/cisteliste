@@ -26,7 +26,7 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 		echo '<h3>' . $field_key . ': ' . $value . '</h3>';
 		$election_id = $value;
 			$args = array(
-				'post_type'=>'post',
+				'post_type'=>'candidates',
 				'orderby'=>'title',
 				'posts_per_page'=>'-1',
 				'order'=>'DESC',
@@ -42,42 +42,40 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 			$partije = array();
 
 			while ( $custom_query->have_posts() ) : $custom_query->the_post();
-				$termsPartyName = get_the_terms( $post->ID, 'party_name' );
+				// $termsPartyName = get_the_terms( $post->ID, 'party_name' );
 
-					foreach ( $termsPartyName as $term ) {
-						// array_push($partije, $term->name);
-						$partije[] = $term->term_id;sds
-					}
+					// foreach ( $termsPartyName as $term ) {
+					// 	$partije[] = $term->term_id;
+					// }
+					$partije[] = get_post_meta( $post->ID, 'naziv_partije', true );
+					// echo get_post_meta( $post->ID, 'naziv_partije', true );
+
 
 			endwhile;
 
 				// echo "<pre style='font-size:11px;'>";
-				$partije= array_unique($partije);
-				// sort($partije);
+				$partije = array_unique($partije);
 				// print_r($partije);
+				// echo "</pre>";
 				echo '<ul>';
 				foreach ($partije as $key => $value) {
 					echo '<li>' ;
-					$term = get_term( $value, 'party_name' );
-					echo $term->name;
+					echo $value;
 					echo '</li>';
 					$args = array(
-						'post_type'=>'post',
-						'orderby'=>'title',
+						'post_type'=>'candidates',
+						'orderby'=>'meta_value_num',
 						'posts_per_page'=>'-1',
 						'order'=>'ASC',
-						'relation' => 'AND',
 						'meta_query' => array(
+						'relation' => 'AND',
 							array(
 								'key'  => 'election_id',
 								'value'  => $election_id,
 								),
-							),
-						'tax_query' => array(
 							array(
-								'taxonomy'  => 'party_name',
-								'field'  => 'id',
-								'terms'  => array($value),
+								'key'  => 'naziv_partije',
+								'value'  => $value,
 								),
 							),
 					);
@@ -89,10 +87,13 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 						echo '<a href="' . get_permalink() . '">';
 						echo get_the_title( );
 						echo '</a>';
-						edit_post_link(' - Edit');
+						echo ' - ';
+						echo get_post_meta( $post->ID, 'list_number', true );
+						// edit_post_link(' - Edit');
 					echo '</li>';
 
 				endwhile;
+				echo "kraj liste";
 				echo '</ul>';
 				}
 				echo '</ul>';
