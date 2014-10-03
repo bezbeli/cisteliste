@@ -1,11 +1,9 @@
 <?php get_template_part('templates/content', 'single'); ?>
 
-<div id="container">
 <?php
 
 $custom_fields = get_post_custom();
 // echo '<div class="js-masonry">';
-
 
 if ( in_array(array("701"), $custom_fields)) {
     	array_push($custom_fields[president_bih], "702");
@@ -13,9 +11,26 @@ if ( in_array(array("701"), $custom_fields)) {
     	array_push($custom_fields[president_bih], "701");
 }
 
+echo '<ul class="nav nav-tabs" role="tablist">';
+	$i=0;
+	foreach ( $custom_fields as $field_key => $field_values ) {
+		$field_values = array_filter($field_values);
+		if (!empty($field_values)) {
+			if ($i==0) {
+			echo '<li class="active"><a href="#' . $field_key . '" role="tab" data-toggle="tab">' . $field_values[0] . '</a></li>'."\n";
+			} else {
+			echo '<li><a href="#' . $field_key . '" role="tab" data-toggle="tab">' . $field_values[0] . '</a></li>'."\n";
+			}
+		}
+	$i++;
+	}
+echo '</ul>';
+
+
 	// echo "<pre style='font-size:10px;'>";
 	// 	print_r($custom_fields);
 	// echo "</pre>";
+echo '<div class="tab-content">';
 
 foreach ( $custom_fields as $field_key => $field_values ) {
 
@@ -23,7 +38,7 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 
 	foreach ( $field_values as $key => $value )
 		if ($value && $field_key != 'municipality_ID' && $field_key != '_edit_lock') {
-		echo '<div class="item utrka col-md-3">';
+		echo '<div class="tab-pane"'. 'id="'. $field_key .'">'."\n";
 					
 					// if ($value == '701' || $value == '702' ) {
 					// 	$value = array('701','702'); 
@@ -41,9 +56,9 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 
 					$query_election_name = new WP_Query( $args );
 					while ( $query_election_name->have_posts() ) : $query_election_name->the_post();
-					echo '<h5>';
+					echo '<h1 class="space-below">';
 					the_title();
-					echo '</h5>';
+					echo '</h1>';
 					endwhile;
 
 		$election_id = $value;
@@ -76,12 +91,12 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 				// echo "<pre style='font-size:11px;'>";
 				// print_r($partije);
 				// echo "</pre>";
-				echo '<ul>';
+				echo '<div class="row">';
 				foreach ($partije as $key => $value) {
-					echo '<li class="partija">' ;
+					echo '<div class="partija col-md-3">' ;
 					// echo get_post_meta( $post->ID, 'election_id', true ) . '<br />';
-					echo $key;
-					echo '</li>';
+					echo "<strong>" . $key . "</strong>";
+					// echo '</div>'."\n";
 					$args = array(
 						'post_type'=>'candidates',
 						'orderby'=>'meta_value_num',
@@ -101,7 +116,7 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 					);
 
 				$query_kandidate = new WP_Query( $args );
-				echo '<ul>';
+				// echo '<div>'."\n";
 
 
 				while ( $query_kandidate->have_posts() ) : $query_kandidate->the_post();
@@ -110,7 +125,7 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 				$government_logic = get_post_meta( $post->ID, 'government_logic', true );
 
 				if (get_the_content( ) || $parliament_logic_drugi_dom || $government_logic) {
-					echo '<li class="zastupnik">';
+					echo '<div class="zastupnik">';
 						echo get_post_meta( $post->ID, 'list_number', true ) . ' ';
 						echo '<a href="' . get_permalink() . '">';
 						echo get_the_title( );
@@ -120,9 +135,9 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 						// echo '<br />';
 						// echo $government_logic;
 						// edit_post_link(' - Edit');
-					echo '</li>';
+					echo '</div>'."\n";
 				} else {
-					echo '<li class="zastupnik">';
+					echo '<div class="zastupnik">';
 						echo get_post_meta( $post->ID, 'list_number', true ) . ' ';
 						echo get_the_title( );
 						// echo '<br />';
@@ -130,15 +145,15 @@ foreach ( $custom_fields as $field_key => $field_values ) {
 						// echo '<br />';
 						// echo $government_logic;
 						// edit_post_link(' - Edit');
-					echo '</li>';
+					echo '</div>'."\n";
 				}
 				endwhile;
 
-				echo '</ul>';
+				echo '</div>'."\n";
 				}
-				echo '</ul>';
+				echo '</div>'."\n";
 				// echo "</pre>";
-				echo '</div>';
+				echo '</div>'."\n";
 
 		}
 }

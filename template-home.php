@@ -55,8 +55,19 @@ $('.typeahead').typeahead({
 </script>
 </div>
 
+
+
+
+
+
 <div class="row">
 	<div class="col-md-12">
+
+
+
+
+
+
 		<div class="home-box">
 			<h2>Partije po broju ponovljenih kandidata</h2>
 			<?php
@@ -80,11 +91,17 @@ $('.typeahead').typeahead({
 			</tr>
 			<?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
 			<tr>
-				<td ><a href="<?php echo get_permalink(); ?>"><?php echo roots_title(); ?></a></td>
-				<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'broj_novih', true ); ?></h2></td>
-				<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'broj_ponovljenih', true ); ?></h2></td>
-				<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'broj_kandidata', true ); ?></h2></td>
-				<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'procenat_ponovljenih_kanidata', true ); ?></h2></td>
+				<td ><a href="<?php echo get_permalink(); ?>"><?php echo roots_title(); ?><?php echo $post->ID; ?></a></td>
+				<td style="text-align:center;">					
+					<h2><?php echo get_post_meta( $post->ID, 'broj_novih', true ); ?></h2></td>
+				<td style="text-align:center;">
+					<h2><?php echo get_post_meta( $post->ID, 'broj_ponovljenih', true ); ?></h2></td>
+				<td style="text-align:center;">
+					<h2><?php echo get_post_meta( $post->ID, 'broj_kandidata', true ); ?></h2></td>
+				<td style="text-align:center;">
+					<?php echo '<div id="div' . $post->ID . '"></div>'; ?>
+					<h2><?php //echo get_post_meta( $post->ID, 'procenat_ponovljenih_kanidata', true ); ?></h2>
+				</td>
 			</tr>
 			<?php endwhile; ?>
 			
@@ -97,6 +114,57 @@ $('.typeahead').typeahead({
 	</div>
 </div>
 
+<script language="JavaScript">
+
+    var div1=d3.select(document.getElementById('div16102'));
+    var div2=d3.select(document.getElementById('div16103'));
+    var div3=d3.select(document.getElementById('div16104'));
+    var div4=d3.select(document.getElementById('div16105'));
+
+    start();
+
+    
+    function labelFunction(val,min,max) {
+
+    }
+
+    function start() {
+
+        var rp1 = radialProgress(document.getElementById('div16102'))
+                .diameter(180)
+                .minValue(0)
+                .maxValue(595)
+                .value(108)
+                .render();
+
+        var rp2 = radialProgress(document.getElementById('div16103'))
+                .diameter(180)
+                .minValue(0)
+                .maxValue(455)
+                .value(81)
+                .render();
+
+        var rp3 = radialProgress(document.getElementById('div16104'))
+                .diameter(180)
+                .minValue(0)
+                .maxValue(443)
+                .value(64)
+                .render();
+
+        var rp4 = radialProgress(document.getElementById('div16105'))
+                .diameter(180)
+                .minValue(0)
+                .maxValue(228)
+                .value(42)
+                .render();
+
+    }
+
+
+
+
+
+</script>
 <div class="row">
 	<div class="col-md-8">
 		<div class="home-box">
