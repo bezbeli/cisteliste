@@ -31,3 +31,5 @@ $custom_query = new WP_Query( $args ); ?>
 </li>
 <?php endwhile; ?>
 </ul>
+
+<?php wp_reset_query(); ?>

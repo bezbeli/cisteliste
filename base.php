@@ -14,6 +14,9 @@
 
   <div class="wrap container" role="document">
     <div class="content row">
+      <?php if (municipalities == get_post_type( )) {
+        include roots_template_path();
+      } else { ?>
       <main class="main" role="main">
         <?php include roots_template_path(); ?>
       </main><!-- /.main -->
@@ -22,6 +25,7 @@
           <?php include roots_sidebar_path(); ?>
         </aside><!-- /.sidebar -->
       <?php endif; ?>
+      <?php }; ?>
     </div><!-- /.content -->
   </div><!-- /.wrap -->
 
