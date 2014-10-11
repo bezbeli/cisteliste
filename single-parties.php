@@ -1,13 +1,34 @@
-<?php get_template_part('templates/content', 'single'); ?>
+<div class="content-wrapper paper">
+<?php while (have_posts()) : the_post(); ?>
+  <article <?php post_class(); ?>>
+    <header>
+      <h1 class="entry-title"><?php the_title(); ?></h1>
+      <?php //get_template_part('templates/entry-meta'); ?>
+    </header>
+    <div class="entry-content">
+      <?php the_content(); ?>
+    </div>
+    <footer>
+      <?php wp_link_pages(array('before' => '<nav class="page-nav"><p>' . __('Pages:', 'roots'), 'after' => '</p></nav>')); ?>
+    </footer>
+  </article>
+<?php endwhile; ?>
 
 <strong>Predsjednik stranke: </strong><br />
 <?php echo get_post_meta( $post->ID, 'party_president', true ); ?><br />
 
 <a href="<?php echo get_post_meta( $post->ID, 'party_link', true ); ?>"><?php echo get_post_meta( $post->ID, 'party_link', true ); ?></a><br /><br />
 
+
+<?php if(get_post_meta( $post->ID, 'nazivi_lista_koalicije', true )){ ?>
 <h4>Izborne liste i koalicije za Izbore 2014.</h4>
 <?php echo get_post_meta( $post->ID, 'nazivi_lista_koalicije', true ); ?><br /><br />
+<?php } ?>
 
+
+
+
+<?php if(get_post_meta( $post->ID, 'broj_kandidata', true )){ ?>
 <div class="table-responsive">
 	<table class="table table-bordered" id="partije">
 		<tr>
@@ -23,55 +44,17 @@
 			<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'procenat_ponovljenih_kanidata', true ); ?></h2></td>
 		</tr>
 	</table>
-<!-- 	<table class="table-bordered table-condensed">
-			<?php if (get_post_meta( $post->ID, '701', true )) {?><tr><td style="text-align:center;">701</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '701', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '702', true )) {?><tr><td style="text-align:center;">702</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '702', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '703', true )) {?><tr><td style="text-align:center;">703</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '703', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '600', true )) {?><tr><td style="text-align:center;">600</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '600', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '511', true )) {?><tr><td style="text-align:center;">511</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '511', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '512', true )) {?><tr><td style="text-align:center;">512</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '512', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '513', true )) {?><tr><td style="text-align:center;">513</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '513', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '514', true )) {?><tr><td style="text-align:center;">514</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '514', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '515', true )) {?><tr><td style="text-align:center;">515</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '515', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '521', true )) {?><tr><td style="text-align:center;">521</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '521', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '522', true )) {?><tr><td style="text-align:center;">522</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '522', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '523', true )) {?><tr><td style="text-align:center;">523</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '523', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '401', true )) {?><tr><td style="text-align:center;">401</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '401', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '402', true )) {?><tr><td style="text-align:center;">402</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '402', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '403', true )) {?><tr><td style="text-align:center;">403</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '403', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '404', true )) {?><tr><td style="text-align:center;">404</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '404', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '405', true )) {?><tr><td style="text-align:center;">405</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '405', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '406', true )) {?><tr><td style="text-align:center;">406</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '406', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '407', true )) {?><tr><td style="text-align:center;">407</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '407', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '408', true )) {?><tr><td style="text-align:center;">408</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '408', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '409', true )) {?><tr><td style="text-align:center;">409</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '409', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '410', true )) {?><tr><td style="text-align:center;">410</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '410', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '411', true )) {?><tr><td style="text-align:center;">411</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '411', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '412', true )) {?><tr><td style="text-align:center;">412</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '412', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '301', true )) {?><tr><td style="text-align:center;">301</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '301', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '302', true )) {?><tr><td style="text-align:center;">302</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '302', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '303', true )) {?><tr><td style="text-align:center;">303</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '303', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '304', true )) {?><tr><td style="text-align:center;">304</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '304', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '305', true )) {?><tr><td style="text-align:center;">305</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '305', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '306', true )) {?><tr><td style="text-align:center;">306</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '306', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '307', true )) {?><tr><td style="text-align:center;">307</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '307', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '308', true )) {?><tr><td style="text-align:center;">308</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '308', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '309', true )) {?><tr><td style="text-align:center;">309</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '309', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '201', true )) {?><tr><td style="text-align:center;">201</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '201', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '202', true )) {?><tr><td style="text-align:center;">202</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '202', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '203', true )) {?><tr><td style="text-align:center;">203</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '203', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '204', true )) {?><tr><td style="text-align:center;">204</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '204', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '205', true )) {?><tr><td style="text-align:center;">205</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '205', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '206', true )) {?><tr><td style="text-align:center;">206</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '206', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '207', true )) {?><tr><td style="text-align:center;">207</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '207', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '208', true )) {?><tr><td style="text-align:center;">208</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '208', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '209', true )) {?><tr><td style="text-align:center;">209</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '209', true ); ?></td></tr><?php }; ?>
-			<?php if (get_post_meta( $post->ID, '210', true )) {?><tr><td style="text-align:center;">210</td><td style="text-align:center;"><?php echo get_post_meta( $post->ID, '210', true ); ?></td></tr><?php }; ?>
-	</table>
- --></div>
+</div>
+<?php } ?>
+
+
+
 
 <hr>
 
+<?php if(get_post_meta( $post->ID, 'broj_poslanika', true )||
+	get_post_meta( $post->ID, 'broj_poslanika', true )
+){ ?>
 <table class="table table-bordered centered">
 	<tr>
 		<th>Poslanička mjesta 2010 - 2014.</th>
@@ -86,14 +69,109 @@
 		</td>
 	</tr>
 </table>
+<?php } ?>
 
 <hr>
 
-<h4>Institucije u izvršnoj vlasti u kojima je partija obašala vlast:</h4>
+<h4>Institucije u izvršnoj vlasti u kojima je partija obnašala vlast:</h4>
+
+<?php	
+// $party_name_pivot = get_post_meta( $post->ID, 'party_name_pivot', true );
+// echo $party_name_pivot;
+
+
+// $args = array(
+// 		'post_type'		=>	'candidates',
+// 		'orderby'		=>	'title',
+// 		'posts_per_page'	=>	'-1',
+// 		'order'			=>	'DESC',
+// 		'meta_query'		=>	array(
+// 		'relation'		=>	'OR',
+// 						array(
+// 							'key' => 'revizorski_izvjestaji_2011',
+// 							'value' => '',
+// 							'compare' => '!='
+// 						),
+// 						array(
+// 							'key' => 'prisustvo_sjednicama_vlade',
+// 							'value' => '',
+// 							'compare' => '!='
+// 						),
+// 					),
+// );
+
+// $custom_query = new WP_Query( $args ); ?>
+<!-- <div class="table-responsive">
+			<table class="table" id="partije">
+ <ul> -->
+<?php
+// while ( $custom_query->have_posts() ) : $custom_query->the_post();
+
+// if (get_post_meta( $post->ID, 'party_id', true ) == $party_name_pivot) {
+// 	# code...
+// 	echo '<li>';
+// 	echo '<a href="';
+// 	echo get_permalink();
+// 	echo '">';
+// 	the_title();
+// 	echo '</a><br/>';
+// 	echo 'Naziv institucije: ' . get_post_meta( $post->ID, 'naziv_institucije', true ) . '<br/>';
+// 	echo 'Naziv funkcije: ' . get_post_meta( $post->ID, 'naziv_funkcije_2010_2014', true ) . '<br/>';
+// 	echo '</li>';
+// }	
+
+
+
+// endwhile;
+?>
+ <!-- </ul>
+</div>
+<?php wp_reset_query(); ?> -->
+ 
+
+
+
+<?php if(get_post_meta( $post->ID, 'naziv_institucije', true )){ ?>
+<strong>Naziv institucije:</strong><br />
+<?php echo get_post_meta( $post->ID, 'naziv_institucije', true ); ?><br /><br />
+<?php } ?>
+
+<?php if(get_post_meta( $post->ID, 'naziv_funkcije_2010_2014', true )){ ?>
+<strong>Naziv funkcije:</strong><br />
+<?php echo get_post_meta( $post->ID, 'naziv_funkcije_2010_2014', true ); ?><br /><br />
+<?php } ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+
+<?php if(get_post_meta( $post->ID, 'nazivi_institucija', true )){ ?>
+
 <?php echo get_post_meta( $post->ID, 'nazivi_institucija', true ); ?><br />
+<?php } ?>
 
 <hr>
 
+<?php if(get_post_meta( $post->ID, 'broj_pozitivnih_revizorskih_izvjestaja', true )||
+	get_post_meta( $post->ID, 'broj_negativnih_revizorskih_izvjestaja', true )||
+	get_post_meta( $post->ID, 'broj_uzdržanih_revizorskih_izvjestaja', true )
+){ ?>
 	<h4>Revizorski izvjestaji za sve institucije podložne reviziji u kojima  je partija bila na vlasti:</h4>
 <table class="table table-bordered centered">
 	
@@ -108,9 +186,14 @@
 		<td><?php echo get_post_meta( $post->ID, 'broj_uzdržanih_revizorskih_izvjestaja', true ); ?></td>
 	</tr>
 </table>
+<?php } ?>
 
 <hr>
 
+<?php if(get_post_meta( $post->ID, 'election_promise_kept', true )||
+	get_post_meta( $post->ID, 'election_promise_partially_done', true )||
+	get_post_meta( $post->ID, 'election_promise_broken', true )
+){ ?>
 <h4>Procenat ispunjenosti obećanja partija:</h4>
 
 <table class="table table-bordered centered">
@@ -126,28 +209,50 @@
 		<td><h2><?php echo get_post_meta( $post->ID, 'election_promise_broken', true ); ?></h2></td>
 	</tr>
 </table>
+<?php } ?>
 
 <br />
 
-<h4>Istinmjer analiza o učinku partije (više na istinomjer.ba): </h4>
+<?php if(get_post_meta( $post->ID, 'istinomjer_analiza', true )){ ?>
+<h4>Istinomjer analiza o učinku partije (više na istinomjer.ba): </h4>
 <?php echo get_post_meta( $post->ID, 'istinomjer_analiza', true ); ?><br /><br />
-
+<?php } ?>
 
 <hr>
 
-<h4>Broj osnova po kojima su partije kršile zakone: </h4>
+<h4>Broj osnova po kojima su partije kršile zakone </h4>
+
 <?php echo get_post_meta( $post->ID, 'ukupan_broj_kršenja_zakona_partije', true ); ?>
 
-<h4>Kršenja zakona od strane partije (izvodi iz revizorskih izvještaja za 2010:)</h4>
-<?php echo get_post_meta( $post->ID, 'kršenje_zakona_partije_2010', true ); ?>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#2010" role="tab" data-toggle="tab">2010</a></li>
+  <li><a href="#2011" role="tab" data-toggle="tab">2011</a></li>
+  <li><a href="#2012" role="tab" data-toggle="tab">2012</a></li>
+</ul>
 
-<h4>Kršenja zakona od strane partije (izvodi iz revizorskih izvještaja za 2011:)</h4>
-<?php echo get_post_meta( $post->ID, 'kršenje_zakona_partije_2011', true ); ?>
-
-<h4>Kršenja zakona od strane partije (izvodi iz revizorskih izvještaja za 2012:)</h4>
-<?php echo get_post_meta( $post->ID, 'kršenje_zakona_partije_2012', true ); ?>
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="2010">
+	<h4>Kršenja zakona od strane partije (izvodi iz revizorskih izvještaja za 2010:)</h4>
+	<?php echo get_post_meta( $post->ID, 'kršenje_zakona_partije_2010', true ); ?>
+  </div>
+  <div class="tab-pane" id="2011">
+  	<h4>Kršenja zakona od strane partije (izvodi iz revizorskih izvještaja za 2011:)</h4>
+	<?php echo get_post_meta( $post->ID, 'kršenje_zakona_partije_2011', true ); ?>
+  </div>
+  <div class="tab-pane" id="2012">
+  	<h4>Kršenja zakona od strane partije (izvodi iz revizorskih izvještaja za 2012:)</h4>
+	<?php echo get_post_meta( $post->ID, 'kršenje_zakona_partije_2012', true ); ?>
+  </div>
+  </div>
 
 <hr>
 
+
+<?php if(get_post_meta( $post->ID, 'spisak_koalicionih_partnera', true )){ ?>
 <h4>Koalicioni partneri: </h4>
 <?php echo get_post_meta( $post->ID, 'spisak_koalicionih_partnera', true ); ?><br /><br />
+<?php } ?>
+
+</div>

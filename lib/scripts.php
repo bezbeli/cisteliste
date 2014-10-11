@@ -22,33 +22,26 @@ function roots_scripts() {
   if (WP_ENV === 'development') {
     $assets = array(
       'css'       => '/assets/css/main.css',
-      'circ_styles'        => '/assets/vendor/circs/styles/circ_style.css',
       'js'        => '/assets/js/scripts.js',
       'modernizr' => '/assets/vendor/modernizr/modernizr.js',
       'jquery'    => '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js',
       'typeahead' => '/assets/vendor/bootstrap3-typeahead/bootstrap3-typeahead.min.js',
-      'masonerija' => '/assets/vendor/masonry/dist/masonry.pkgd.min.js',
-      'circs' => '/assets/vendor/circs/scripts/d3.min.js',
-      'radialProgress' => '/assets/vendor/circs/scripts/radialProgress.js'
+      'masonerija' => '/assets/vendor/masonry/dist/masonry.pkgd.min.js'
  );
   } else {
     $get_assets = file_get_contents(get_template_directory() . '/assets/manifest.json');
     $assets     = json_decode($get_assets, true);
     $assets     = array(
       'css'       => '/assets/css/main.min.css?' . $assets['assets/css/main.min.css']['hash'],
-      'circ_styles'        => '/assets/vendor/circs/styles/circ_style.css' . $assets['assets/vendor/circs/styles/circ_style.css']['hash'],
       'js'        => '/assets/js/scripts.min.js?' . $assets['assets/js/scripts.min.js']['hash'],
       'modernizr' => '/assets/js/vendor/modernizr.min.js',
       'jquery'    => '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
       'typeahead' => '/assets/vendor/bootstrap3-typeahead/bootstrap3-typeahead.min.js',
-       'masonerija' => '/assets/vendor/masonry/dist/masonry.pkgd.min.js',
-       'circs' => '/assets/vendor/circs/scripts/d3.min.js',
-       'radialProgress' => '/assets/vendor/circs/scripts/radialProgress.js'
+       'masonerija' => '/assets/vendor/masonry/dist/masonry.pkgd.min.js'
     );
   }
 
   wp_enqueue_style('roots_css', get_template_directory_uri() . $assets['css'], false, null);
-  wp_enqueue_style('circ_styles', get_template_directory_uri() . $assets['circ_styles'], false, null);
 
   /**
    * jQuery is loaded using the same method from HTML5 Boilerplate:
@@ -68,8 +61,6 @@ function roots_scripts() {
   wp_enqueue_script('modernizr', get_template_directory_uri() . $assets['modernizr'], array(), null, false);
   wp_enqueue_script('jquery');
   wp_enqueue_script('typeahead', get_template_directory_uri() . $assets['typeahead'], array(), null, false);
-  wp_enqueue_script('circs', get_template_directory_uri() . $assets['circs'], array(), null, false);
-  wp_enqueue_script('radialProgress', get_template_directory_uri() . $assets['radialProgress'], array(), null, false);
   wp_enqueue_script('masonerija', get_template_directory_uri() . $assets['masonerija'], array(), null, false);
   wp_enqueue_script('roots_js', get_template_directory_uri() . $assets['js'], array(), null, true);
 }

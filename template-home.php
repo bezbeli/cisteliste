@@ -4,172 +4,43 @@ Template Name: Home
 */
 ?>
 
-
-<div class="home-box">
-	<h2>Kreiraj glasački listić</h2>
-
-<input type="text" class="typeahead" data-provide="typeahead" data-items="4" placeholder="Opština">
-
-<?php
-$args = array(
-	'post_type'		=> 'municipalities',
-	'orderby'		=> 'title',
-	'posts_per_page'	=> '-1',
-	'order'			=> 'DESC',
-);
-$custom_query = new WP_Query( $args );
-
-$opstine = array();
-
-while ( $custom_query->have_posts() ) : $custom_query->the_post();
-	$title = get_the_title();
-	$permalink = get_permalink();
-	$opstine[$title] =  $permalink;
- endwhile;
-
-// echo '<pre style="font-size:10px">';
-// print_r($opstine);
-// echo json_encode($opstine);
-// echo "</pre>";
- ?>
-
-
-<script>
-
-var data = <?php echo json_encode($opstine); ?>;
-
-$('.typeahead').typeahead({
-  minLength:1,
-  updater: function (item) {
-        /* navigate to the selected item */
-        window.location.href = data[item];
-    },
-  source: function (typeahead, query) {
-    var links=[];
-    for (var name in data){
-        links.push(name); 
-    }
-    return links;
-    }
-});	
-</script>
-</div>
-
-
-
-
-
-
 <div class="row">
 	<div class="col-md-12">
-
-
-
-
-
-
-		<div class="home-box">
-			<h2>Partije po broju ponovljenih kandidata</h2>
-			<?php
-			$args = array(
-				'post_type'		=> 'parties',
-				'orderby'		=> 'title',
-				'posts_per_page'	=> '4',
-				'order'			=> 'DESC',
-				'meta_key'		=> 'broj_ponovljenih',
-				'orderby'		=> 'meta_value_num',
+		<div class="home-box paper">
+<?php
+$args = array(
+	'post_type'        => 'parties',
+	'orderby'          => 'title',
+	'posts_per_page'   => '4',
+	'order'            => 'DESC',
+	'meta_key'         => 'broj_ponovljenih',
+	'orderby'          => 'meta_value_num',
 			);
-			$custom_query = new WP_Query( $args ); ?>
-			<div class="table-responsive">
-			<table class="table table-bordered" id="partije">
-			<tr>
-				<th>Partija</th>
-				<td style="text-align:center;"><small>Broj novih kandidata</small></td>
-				<td style="text-align:center;"><small>Broj ponovljenih kandidata</small></td>
-				<td style="text-align:center;"><small>Ukupan broj kandidata</small></td>
-				<td style="text-align:center;"><small>Procenat ponovljenih kandidata</small></td>
-			</tr>
-			<?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
-			<tr>
-				<td ><a href="<?php echo get_permalink(); ?>"><?php echo roots_title(); ?><?php echo $post->ID; ?></a></td>
-				<td style="text-align:center;">					
-					<h2><?php echo get_post_meta( $post->ID, 'broj_novih', true ); ?></h2></td>
-				<td style="text-align:center;">
-					<h2><?php echo get_post_meta( $post->ID, 'broj_ponovljenih', true ); ?></h2></td>
-				<td style="text-align:center;">
-					<h2><?php echo get_post_meta( $post->ID, 'broj_kandidata', true ); ?></h2></td>
-				<td style="text-align:center;">
-					<?php echo '<div id="div' . $post->ID . '"></div>'; ?>
-					<h2><?php //echo get_post_meta( $post->ID, 'procenat_ponovljenih_kanidata', true ); ?></h2>
-				</td>
-			</tr>
-			<?php endwhile; ?>
-			
-			</table>
-			</div>
+$custom_query = new WP_Query( $args ); ?>
 
-			<a href="http://cisteliste.ba/partije/">Pogledajte sve partije</a>
-			<?php wp_reset_query(); ?>
+<div class="row">
+<?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
+<div class="col-md-3">
+	<div class="home-circle-wrapper paper">
+		<div class="circle"><span><?php echo get_post_meta( $post->ID, 'procenat_ponovljenih_kanidata', true ); ?></span></div>
+		<div style="min-height:5em"><a href="<?php echo get_permalink(); ?>"><strong><?php echo roots_title(); ?></strong></a></div>
+		<div class="border-top"><h2><span class="glyphicon glyphicon-user"></span> <?php echo get_post_meta( $post->ID, 'broj_novih', true ); ?></h2><small>Broj novih kandidata</small></div>
+		<div class="border-top"><h2><span class="glyphicon glyphicon-user"></span> <?php echo get_post_meta( $post->ID, 'broj_ponovljenih', true ); ?></h2><small>Broj ponovljenih kandidata</small></div>
+		<div class="border-top"><h2><span class="glyphicon glyphicon-user"></span> <?php echo get_post_meta( $post->ID, 'broj_kandidata', true ); ?></h2><small>Ukupan broj kandidata</small></div>
+	</div>
+</div>
+<?php endwhile; ?>
+</div>
+		
 		</div>
 	</div>
 </div>
+<?php wp_reset_query(); ?>
 
-<script language="JavaScript">
-
-    var div1=d3.select(document.getElementById('div16102'));
-    var div2=d3.select(document.getElementById('div16103'));
-    var div3=d3.select(document.getElementById('div16104'));
-    var div4=d3.select(document.getElementById('div16105'));
-
-    start();
-
-    
-    function labelFunction(val,min,max) {
-
-    }
-
-    function start() {
-
-        var rp1 = radialProgress(document.getElementById('div16102'))
-                .diameter(180)
-                .minValue(0)
-                .maxValue(595)
-                .value(108)
-                .render();
-
-        var rp2 = radialProgress(document.getElementById('div16103'))
-                .diameter(180)
-                .minValue(0)
-                .maxValue(455)
-                .value(81)
-                .render();
-
-        var rp3 = radialProgress(document.getElementById('div16104'))
-                .diameter(180)
-                .minValue(0)
-                .maxValue(443)
-                .value(64)
-                .render();
-
-        var rp4 = radialProgress(document.getElementById('div16105'))
-                .diameter(180)
-                .minValue(0)
-                .maxValue(228)
-                .value(42)
-                .render();
-
-    }
-
-
-
-
-
-</script>
 <div class="row">
-	<div class="col-md-8">
-		<div class="home-box">
-			<h3>Partije sa najviše negativnih revizorskih izvještaja i procenat neispunjenih obećanja</h3>
-
+	<div class="col-md-6">
+		<div class="home-box paper">
+			<h2>Partije sa najviše negativnih revizorskih izvještaja</h2>
 			<?php
 			$args = array(
 				'post_type'		=> 'parties',
@@ -178,27 +49,72 @@ $('.typeahead').typeahead({
 				'order'			=> 'DESC',
 				'meta_key'		=> 'broj_negativnih_revizorskih_izvjestaja',
 				'orderby'		=> 'meta_value_num',
-				// 'meta_query' => array(
-				// 	array(
-				// 		'taxonomy'  => 'category',
-				// 		'field'     => 'slug',
-				// 		'terms'     => array('izdvojeno'),
-				// 		),
-				// 	),
 			);
 			$custom_query = new WP_Query( $args ); ?>
 			<div class="table-responsive">
 			<table class="table" id="partije">
-			<tr>
-				<th>Partija</th>
-				<td style="text-align:center;">Broj negativnih revizorskih izvještaja</td>
-				<td style="text-align:center;">Procenat neispunjenih obećanja</td>
-			</tr>
 			<?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
 			<tr>
 				<td style="vertical-align:middle"><a href="<?php echo get_permalink(); ?>"><?php echo roots_title(); ?></a></td>
-				<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'broj_negativnih_revizorskih_izvjestaja', true ); ?></h2></td>
-				<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'election_promise_broken', true ); ?></h2></td>
+				<td style="text-align:right; white-space: nowrap;"><h2><span class="glyphicon glyphicon-thumbs-down"></span> <?php echo get_post_meta( $post->ID, 'broj_negativnih_revizorskih_izvjestaja', true ); ?></h2></td>
+			</tr>
+			<?php endwhile; ?>
+			</table>
+			</div>
+			<?php wp_reset_query(); ?>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="home-box paper">
+			<h2>Partije sa najvišim procentom neispunjenih obećanja</h2>
+
+			<?php
+			$args = array(
+				'post_type'		=> 'parties',
+				'orderby'		=> 'title',
+				'posts_per_page'	=> '4',
+				'order'			=> 'DESC',
+				'meta_key'		=> 'election_promise_broken',
+				'orderby'		=> 'meta_value_num',
+			);
+			$custom_query = new WP_Query( $args ); ?>
+			<div class="table-responsive">
+			<table class="table" id="partije">
+			<?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
+			<tr>
+				<td style="vertical-align:middle"><a href="<?php echo get_permalink(); ?>"><?php echo roots_title(); ?></a></td>
+				<td style="text-align:right; white-space:nowrap"><h2><span class="glyphicon glyphicon-thumbs-down"></span> <?php echo get_post_meta( $post->ID, 'election_promise_broken', true ); ?></h2></td>
+			</tr>
+			<?php endwhile; ?>
+			</table>
+			</div>
+			<?php wp_reset_query(); ?>
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+		<div class="col-md-4">
+		<div class="home-box paper">
+			<h4>Funkcioneri sa najvišim procentom neispunjenih obećanja</h4>
+			<?php
+			$args = array(
+				'post_type'		=> 'candidates',
+				'orderby'		=> 'title',
+				'posts_per_page'	=> '9',
+				'order'			=> 'DESC',
+				'meta_key'		=> 'neispunjena_obecanja',
+				'orderby'		=> 'meta_value_num',
+			);
+			$custom_query = new WP_Query( $args ); ?>
+			<div class="table-responsive">
+			<table class="table" id="partije">
+			<?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
+			<tr>
+				<td style="vertical-align:middle"><span class="glyphicon glyphicon-user"></span> <a href="<?php echo get_permalink(); ?>"><?php echo roots_title(); ?></a></td>
+				<td style="text-align:right; white-space: nowrap;"><h4><span class="glyphicon glyphicon-thumbs-down"></span> <?php echo get_post_meta( $post->ID, 'neispunjena_obecanja', true ); ?></h4></td>
 			</tr>
 			<?php endwhile; ?>
 			</table>
@@ -208,74 +124,125 @@ $('.typeahead').typeahead({
 	</div>
 
 	<div class="col-md-4">
-		<div class="home-box">
-			<h3>Funkcioneri sa najvećim brojem neispunjenih obećanja</h3>
-			<?php
-			$args = array(
-				'post_type'		=> 'candidates',
-				'orderby'		=> 'title',
-				'posts_per_page'	=> '4',
-				'order'			=> 'DESC',
-				'meta_key'		=> 'neispunjena_obecanja',
-				'orderby'		=> 'meta_value_num',
+	<div class="home-box paper">
+	<h4>Funkcioneri sa najvećim brojem negativnih revizorskih izvještaja</h4>
+
+<?php	$args = array(
+		'post_type'		=>	'candidates',
+		'orderby'		=>	'title',
+		'posts_per_page'	=>	'-1',
+		'order'			=>	'DESC',
+		'meta_query'		=>	array(
+		'relation'		=>	'OR',
+						array(
+							// 'key' => 'revizorski_izvjestaji_2011',
+							'value' => 'Negativan',
+							'compare' => 'LIKE'
+						),
+         ),
+
 			);
-			$custom_query = new WP_Query( $args ); ?>
-			<div class="table-responsive">
+$custom_query = new WP_Query( $args ); ?>
+<div class="table-responsive">
 			<table class="table" id="partije">
-			<tr>
-				<th>Kandidat</th>
-				<td style="text-align:center;">Broj neispunjenih<br />obećanja</td>
-			</tr>
-			<?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
-			<tr>
-				<td style="vertical-align:middle"><a href="<?php echo get_permalink(); ?>"><?php echo roots_title(); ?></a></td>
-				<td style="text-align:center;"><h2><?php echo get_post_meta( $post->ID, 'neispunjena_obecanja', true ); ?></h2></td>
-			</tr>
-			<?php endwhile; ?>
+ 
+<?php while ( $custom_query->have_posts() ) : $custom_query->the_post();
+
+ 	$ocjena=0;
+ 	if (get_post_meta( $post->ID, 'revizorski_izvjestaji_2011', true )=="Negativan") {
+ 		$ocjena++;
+ 	}
+ 	if (get_post_meta( $post->ID, 'revizorski_izvjestaji_2012', true )=="Negativan") {
+ 		$ocjena++;
+ 	}
+ 	if (get_post_meta( $post->ID, 'revizorski_izvjestaji_2013', true )=="Negativan") {
+ 		$ocjena++;
+ 	}
+	$najgori[roots_title()] = array(
+					'ocjena' =>	$ocjena,
+					'ID' =>		$post->ID,
+					);
+	endwhile;
+
+		$najgoriodnajgorih = array();
+		foreach ($najgori as $key => $row){
+			$najgoriodnajgorih[$key] = $row['najgoriodnajgorih'];
+			}
+		
+		array_multisort($najgoriodnajgorih, $najgori, SORT_DESC);
+
+			$i=0;
+		foreach ($najgori as $key => $value) {
+			$i++;
+			if ($i <= 9) {
+			echo '<tr>';
+				echo '<td style="vertical-align:middle"><span class="glyphicon glyphicon-user"></span> <a href="' . get_permalink($value[ID]) . '">' . get_the_title($value[ID]) . '</a></td>';
+				echo '<td style="text-align: right; white-space: nowrap;"><h4><span class="glyphicon glyphicon-thumbs-down"></span> ' . $value[ocjena] . '</h4></td>';
+			echo '</tr>';
+			}
+		}
+ ?>
 			</table>
-			</div>
-			<?php wp_reset_query(); ?>
 		</div>
+<?php wp_reset_query(); ?>
 	</div>
 </div>
 
-<div class="home-box">
-	<h2>Analize</h2>
+<div class="col-md-4">
+	<div class="home-box paper">
+	<h4>Funkcioneri sa najmanjim procentom prisustva na sjednicama</h4>
 
-<?php
-$args = array(
-	'post_type'		=> 'post',
-	'orderby'		=> 'date',
-	'posts_per_page'	=> '4',
-	'order'			=> 'DESC',
-	'tax_query' => array(
-		array(
-			'taxonomy'  => 'category',
-			'field'     => 'slug',
-			'terms'     => array('analize'),
-			),
-		),
-);
-$analize = new WP_Query( $args ); 
-echo '<div class="row">';
-	while ( $analize->have_posts() ) : $analize->the_post();
-	echo '<div class="col-md-4">';
-	echo '<h4>';
-	echo '<a href="';
-	echo get_permalink();
-	echo '">';
-	the_title();
-	echo '</a>';
-	echo '</h4>';
-	the_excerpt();
-	echo '</div>';
+<?php	$args = array(
+		'post_type'		=>	'candidates',
+		'posts_per_page'	=>	'-1',
+		'meta_query'		=>	array(
+						array(
+							'key' => 'prisustvo_sjednicama',
+							'value' => '',
+							'compare' => '!='
+						),
+		 ),
+
+			);
+$custom_query = new WP_Query( $args ); ?>
+<div class="table-responsive">
+			<table class="table" id="partije">
+ 
+<?php while ( $custom_query->have_posts() ) : $custom_query->the_post();
+
+$dolasci = get_post_meta( $post->ID, 'prisustvo_sjednicama', true );
+	$bar[roots_title()] = array(
+					'dolasci' =>	round($dolasci, 2),
+					'ID' =>		$post->ID,
+					);
 	endwhile;
-echo '</div>'
-?>
 
+		$foo = array();
+		foreach ($bar as $key => $row){
+			$foo[$key] = $row['foo'];
+			}
+		
+		array_multisort($bar, SORT_ASC);
+
+			$i=0;
+		foreach ($bar as $key => $value) {
+			$i++;
+			if ($i <= 9 ) {
+			echo '<tr>';
+				echo '<td style="vertical-align:middle"><span class="glyphicon glyphicon-user"></span> <a href="' . get_permalink($value[ID]) . '">' . get_the_title($value[ID]) . '</a></td>';
+				echo '<td style="text-align: right; white-space: nowrap;"><h4><span class="glyphicon glyphicon-thumbs-down"></span> ' . $value[dolasci] . '%</h4></td>';
+			echo '</tr>';
+			}
+		}
+			// echo '<pre>';
+			// print_r($bar);
+			// echo '<pre>';
+ ?>
+			</table>
+		</div>
+<?php wp_reset_query(); ?>
+	</div>
+</div>
 
 </div>
 
-<div class="home-box">
-	<h2>Partneri</h2>
-</div>

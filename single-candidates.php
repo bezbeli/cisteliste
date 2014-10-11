@@ -1,3 +1,4 @@
+<div class="content-wrapper paper">
 <?php while (have_posts()) : the_post(); ?>
   <article <?php post_class(); ?>>
 	    <header>
@@ -13,8 +14,8 @@ $args = array(
 	'post_type'		=> 'parties',
 	'meta_query'		=> array(
 		array(
-			'meta_key'  => 'party_name_comp',
-			'value'     => $party_id,
+			'meta_key'	=> 'party_name_comp',
+			'value'		=> $party_id,
 			),
 		),
 );
@@ -29,30 +30,26 @@ wp_reset_query();
 
 
 
-
-
-
-
-
-
-
-
-
+<?php if(get_post_meta( $post->ID, 'naziv_institucije', true )){ ?>
 <strong>Naziv institucije:</strong><br />
 <?php echo get_post_meta( $post->ID, 'naziv_institucije', true ); ?><br /><br />
+<?php } ?>
 
+<?php if(get_post_meta( $post->ID, 'naziv_funkcije_2010_2014', true )){ ?>
 <strong>Naziv funkcije:</strong><br />
 <?php echo get_post_meta( $post->ID, 'naziv_funkcije_2010_2014', true ); ?><br /><br />
+<?php } ?>
 
+<?php if(get_post_meta( $post->ID, 'broj_osvojenih_glasova', true )){ ?>
 <strong>Broj osvojenih glasova:</strong><br />
 <?php echo get_post_meta( $post->ID, 'broj_osvojenih_glasova', true ); ?>
+<?php } ?>
 
 
 
 
+<?php if(get_post_meta( $post->ID, 'neispunjena_obecanja', true )){ ?>
 <h4>Procenat ispunjenosti obećanja partija</h4>
-
-<?php echo get_post_meta( $post->ID, 'election_promise_description', true ); ?>
 
 <table class="table table-bordered centered">
 
@@ -67,8 +64,13 @@ wp_reset_query();
 		<td><h2><?php echo get_post_meta( $post->ID, 'neispunjena_obecanja', true ); ?></h2></td>
 	</tr>
 </table>
+<?php } ?>
 
 
+<?php if(get_post_meta( $post->ID, 'revizorski_izvjestaji_2011', true ) ||
+	get_post_meta( $post->ID, 'revizorski_izvjestaji_2012', true )||
+	get_post_meta( $post->ID, 'revizorski_izvjestaji_2013', true )
+	){ ?>
 <h4>Ocjena revizorskog izvještaja za instituciju</h4>
 <table class="table table-bordered centered">
 	<tr>
@@ -88,16 +90,24 @@ wp_reset_query();
 		<td><?php echo get_post_meta( $post->ID, 'revizorski_izvjestaji_2013', true ); ?></td>
 	</tr>
 </table>
+<?php } ?>
 
 
+
+
+<?php if(get_post_meta( $post->ID, 'prisustvo_sjednicama_drugi_dom', true ) ||
+	get_post_meta( $post->ID, 'broj_postavljenih_pitanja_drugi_dom', true )||
+	get_post_meta( $post->ID, 'broj_pokrenutih_inicijativa_drugi_dom', true )||
+	get_post_meta( $post->ID, 'broj_predlozenih_zakona_drugi_dom', true )
+	){ ?>
 <h4><?php echo get_post_meta( $post->ID, 'naziv_paramenta_drugi_dom', true ); ?></h4>
 
 <table class="table table-bordered ce">
 	<tr>
 		<td>Prisustvo sjednicama*</td>
-		<td>Broj postavljenih poslaničkih pitanja</td>
-		<td>Broj pokrenutih poslaničkih inicijativa</td>
-		<td>Broj predloženih zakona</td>
+		<td>Broj postavljenih poslaničkih pitanja*</td>
+		<td>Broj pokrenutih poslaničkih inicijativa*</td>
+		<td>Broj predloženih zakona*</td>
 	</tr>
 	<tr>
 		<td><?php echo get_post_meta( $post->ID, 'prisustvo_sjednicama_drugi_dom', true ); ?></td>
@@ -106,15 +116,25 @@ wp_reset_query();
 		<td><?php echo get_post_meta( $post->ID, 'broj_predlozenih_zakona_drugi_dom', true ); ?></td>
 	</tr>
 </table>
+<small>*Podaci se odnose na period 2011. - 2013. Preuzeto sa <a href="http://vlastibih.com">vlastibih.com</a></small>
+<?php } ?>
 
+
+
+
+<?php if(get_post_meta( $post->ID, 'prisustvo_sjednicama', true ) ||
+	get_post_meta( $post->ID, 'broj_postavljenih_pitanja', true )||
+	get_post_meta( $post->ID, 'broj_pokrenutih_inicijativa', true )||
+	get_post_meta( $post->ID, 'broj_predlozenih_zakona', true )
+	){ ?>
 <h4><?php echo get_post_meta( $post->ID, 'naziv_paramenta', true ); ?></h4>
 
 <table class="table table-bordered">
 	<tr>
 		<td>Prisustvo sjednicama parlamenta*</td>
-		<td>Broj postavljenih poslaničkih pitanja</td>
-		<td>Broj pokrenutih poslaničkih inicijativa</td>
-		<td>Broj predloženih zakona</td>
+		<td>Broj postavljenih poslaničkih pitanja*</td>
+		<td>Broj pokrenutih poslaničkih inicijativa*</td>
+		<td>Broj predloženih zakona*</td>
 	</tr>
 	<tr>
 		<td><?php echo get_post_meta( $post->ID, 'prisustvo_sjednicama', true ); ?></td>
@@ -123,15 +143,25 @@ wp_reset_query();
 		<td><?php echo get_post_meta( $post->ID, 'broj_predlozenih_zakona', true ); ?></td>
 	</tr>
 </table>
+<small>*Podaci se odnose na period 2011. - 2013. Preuzeto sa <a href="http://vlastibih.com">vlastibih.com</a></small>
+<?php } ?>
 
+
+
+
+<?php if(get_post_meta( $post->ID, 'prisustvo_sjednicama_vlade', true ) ||
+	get_post_meta( $post->ID, 'vlada_izradjene_mjere', true )||
+	get_post_meta( $post->ID, 'vlada_broj_predlozenih_zakona', true )||
+	get_post_meta( $post->ID, 'vlada_broj_zaprimljenih_pitanja', true )
+	){ ?>
 <h4><?php echo get_post_meta( $post->ID, 'naziv_vlade', true ); ?></h4>
 
 <table class="table table-bordered">
 	<tr>
 		<td>Prisustvo sjednicama vlade*</td>
-		<td>Broj predloženih mjera</td>
-		<td>Broj predloženih zakona</td>
-		<td>Broj zaprimljenih pitanja</td>
+		<td>Broj predloženih mjera*</td>
+		<td>Broj predloženih zakona*</td>
+		<td>Broj zaprimljenih pitanja*</td>
 	</tr>
 	<tr>
 		<td><?php echo get_post_meta( $post->ID, 'prisustvo_sjednicama_vlade', true ); ?></td>
@@ -141,19 +171,27 @@ wp_reset_query();
 	</tr>
 </table>
 
-<small>*Podaci se odnose na period 2011. - 2013.</small>
+<small>*Podaci se odnose na period 2011. - 2013. Preuzeto sa <a href="http://vlastibih.com">vlastibih.com</a></small>
+<?php } ?>
+
+
+
 
 <h4>Ostali kandidati sa liste</h4>
 <?php 
 $election_id = get_post_meta( $post->ID, 'election_id', true );
 $party_id = get_post_meta( $post->ID, 'party_id', true );
+
 // echo $post->ID;
+// echo get_post_type( );
+
 
 		$args = array(
 			'post_type'=>'candidates',
 			'orderby'=>'meta_value_num',
 			'posts_per_page'=>'-1',
 			'order'=>'DESC',
+			'post__not_in'=>array($post->ID),
 			'meta_query' => array(
 			'relation' => 'AND',
 				array(
@@ -169,17 +207,25 @@ $party_id = get_post_meta( $post->ID, 'party_id', true );
 
 	$query_kandidate = new WP_Query( $args );
 	echo '<ul>';
-	while ( $query_kandidate->have_posts() ) : $query_kandidate->the_post();
-		echo '<li class="zastupnik">';
-			// echo ' &#9617; ';
-			echo get_post_meta( $post->ID, 'list_number', true ) . '  - ';
-			echo '<a href="' . get_permalink() . '">';
-			echo get_the_title( );
-			echo '</a>';
-			// edit_post_link(' - Edit');
-		echo '</li>';
+					while ( $query_kandidate->have_posts() ) : $query_kandidate->the_post();
 
-	endwhile;
+					$parliament_logic_drugi_dom = get_post_meta( $post->ID, 'parliament_logic_drugi_dom', true );
+					$government_logic = get_post_meta( $post->ID, 'government_logic', true );
+
+					if (get_the_content( ) || $parliament_logic_drugi_dom || $government_logic) {
+						echo '<div class="zastupnik">';
+							echo get_post_meta( $post->ID, 'list_number', true ) . ' ';
+							echo '<a href="' . get_permalink() . '">';
+							echo get_the_title( );
+							echo '</a>';
+						echo '</div>'."\n";
+					} else {
+						echo '<div class="zastupnik">';
+							echo get_post_meta( $post->ID, 'list_number', true ) . ' ';
+							echo get_the_title( );
+						echo '</div>'."\n";
+					}
+					endwhile;
 	echo '</ul>';
  ?>
 
@@ -196,3 +242,4 @@ $party_id = get_post_meta( $post->ID, 'party_id', true );
 <?php endwhile; ?>
 
 <?php wp_reset_query(); ?>
+</div>
